@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "harp server site",
-    "build": "harp compile site"
+    "watch": "node ./index.js --watch",
+    "build": "node ./index.js"
   },
   "repository": {
     "type": "git",
