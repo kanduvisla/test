@@ -1,0 +1,35 @@
+:root {
+  --code-style: {
+    font-family: monospace;
+    background: var(--colorLightGray);
+  }
+}
+
+.content {
+  padding: 10px;
+}
+
+p, ul, ol, pre {
+  line-height: 1.35;
+  margin: 1.35em 0;
+  padding: 0;
+
+  & code {
+    font-family: monospace;
+    background: var(--colorLightGray);
+    padding: 0 .25em;
+  }
+}
+
+pre {
+  font-family: monospace;
+  background: var(--colorLightGray);
+  box-sizing: border-box;
+  border-left: 3px solid var(--colorGray);
+  padding: .5em 0 .25em 1.35em;
+  font-size: 85%;
+}
+
+ul, ol {
+  margin-left: 2em;
+}

@@ -1,5 +1,5 @@
 ---
-title: Customer Tax and Discount Rules in Magento 2
+title: getPath() in Source Models in Magento 2
 date: 2017-02-17
 layout: article.html
 published: true
