@@ -21,11 +21,12 @@ var site = Metalsmith(__dirname)
   .use(tagPages({
     'handle': 'tags',
     'path'  : 'tag/:tag.html',
-    'layout': 'partials/tag.html'
+    'layout': 'tag.html'
   }))
   .use(markdown())
   .use(layouts({
-    engine: 'handlebars'
+    engine  : 'handlebars',
+    partials: 'layouts/partials'
   }))
 ;
 

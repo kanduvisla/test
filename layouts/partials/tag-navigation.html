@@ -1,0 +1,7 @@
+<nav class="tags-navigation">
+    {{#each allTags}}
+    <a href="/tag/{{tag}}"
+       data-tag="{{tag}}"
+       data-percent="{{percent}}">{{tag}} <span>({{count}})</span></a>
+    {{/each}}
+</nav>

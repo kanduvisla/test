@@ -6,11 +6,7 @@
         <link rel="stylesheet" href="/css/app.css"/>
     </head>
     <body>
-        <nav class="tags-navigation">
-            {{#each allTags}}
-            <a href="/tag/{{tag}}" data-percent="{{percent}}">{{tag}} <span>({{count}})</span></a>
-            {{/each}}
-        </nav>
+        {{> 'tag-navigation' }}
         <nav class="articles-navigation">
 
         </nav>
