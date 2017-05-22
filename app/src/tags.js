@@ -11,7 +11,7 @@ module.exports = function (opts) {
       if (files[file].tags) {
         _.forEach(files[file].tags, function (tag) {
           var tagObj = _.find(allTags, function (obj) {
-            return obj.tag === tag;
+            return obj.tag && obj.tag.name === tag.name;
           });
 
           if (tagObj === undefined) {

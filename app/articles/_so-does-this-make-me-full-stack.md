@@ -1,0 +1,1 @@
+(artikel over hoe vaag de term full stack eigenlijk is)

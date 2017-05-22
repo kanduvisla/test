@@ -7,11 +7,13 @@ var postcss    = require('metalsmith-with-postcss');
 var tags       = require('./app/src/tags');
 var tagPages   = require('metalsmith-tags');
 var permalinks = require('metalsmith-permalinks');
+var ignore=require('metalsmith-ignore');
 // var articles   = require('./app/src/articles');
 
 var site = Metalsmith(__dirname)
   .source('app')
   .destination('build')
+    .use(ignore('articles/_*.md'))
     .use(tagPages({
       'handle': 'tags',
       'path'  : 'tag/:tag.html',
