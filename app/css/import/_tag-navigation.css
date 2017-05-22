@@ -1,15 +1,68 @@
+/* Tag colors: */
+:root {
+  --colorOrange: #ff7700;
+}
+
 .tags-navigation {
+
   background: var(--colorDarkGray);
+
+  font-size: var(--fontSmall);
   overflow: hidden;
 
   & a {
     background: linear-gradient(var(--colorDarkGray), var(--colorGray));
+    box-sizing: border-box;
     color: #fff;
     display: block;
     float: left;
+    overflow: hidden;
     padding: 10px;
     text-decoration: none;
     text-shadow: 0px 1px 1px #000;
-    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+
+    & span {
+      z-index: 2;
+    }
+
+    &:before {
+      display: block;
+      width: 100%;
+      height: 3px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      content: '';
+      background: var(--colorDarkGray);
+      transition: height 125ms;
+    }
+
+    &:hover:before {
+      height: 100%;
+    }
+
+    &:hover {
+      & .tag-count {
+        opacity: 1;
+      }
+    }
   }
+
+  & [data-tag="magento-2"]:before {
+    background: linear-gradient(var(--colorOrange), color(var(--colorOrange) l(-10%)));
+  }
+}
+
+.tag-name {
+  position: relative;
+}
+
+.tag-count {
+  opacity: .25;
+  position: absolute;
+  right: 10px;
+  transition: opacity 125ms;
 }

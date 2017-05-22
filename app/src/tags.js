@@ -33,7 +33,12 @@ module.exports = function (opts) {
       tagObj.percent = (tagObj.count / totalCount) * 100;
     });
 
-    // Step #3 is to add the tags information to all files:
+    // Step #3 sort them by percentage:
+    allTags = allTags.sort(function(a, b){
+      return b.count - a.count;
+    });
+
+    // Step #4 is to add the tags information to all files:
     for (file in files) {
       files[file].allTags = allTags;
     }

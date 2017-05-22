@@ -3,4 +3,7 @@
     --colorBlack: #000;
     --colorDarkGray: gray(25%);
     --colorGray: gray(35%);
+
+    --fontNormal: 16px;
+    --fontSmall: 12px;
 }

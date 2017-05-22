@@ -31,6 +31,7 @@
     "metalsmith-watch": "^1.0.3",
     "metalsmith-with-postcss": "^1.0.0",
     "postcss-cssnext": "^2.11.0",
-    "postcss-import": "^10.0.0"
+    "postcss-import": "^10.0.0",
+    "postcss-mixins": "^6.0.0"
   }
 }

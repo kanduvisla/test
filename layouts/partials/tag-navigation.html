@@ -1,8 +1,11 @@
 <nav class="tags-navigation">
     {{#each allTags}}
     <a href="/tag/{{tag.slug}}/"
-       data-tag="{{tag.name}}"
+       title="{{tag.name}}"
+       data-tag="{{tag.slug}}"
        data-percent="{{percent}}"
-       style="width: {{percent}}%;">{{tag.name}} <span>({{count}})</span></a>
+       style="width: {{percent}}%;">
+            <span class="tag-name">{{tag.name}}</span>
+            <span class="tag-count">({{count}})</span></a>
     {{/each}}
 </nav>
