@@ -1,5 +1,6 @@
 @import 'import/_variables.css';
 @import 'import/_tag-navigation.css';
+@import 'import/_tags.css';
 
 html,
 body {

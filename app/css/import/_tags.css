@@ -1,0 +1,11 @@
+.tag {
+  font-style: italic;
+
+  &:before {
+    content: '“';
+  }
+
+  &:after {
+    content: '”';
+  }
+}

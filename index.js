@@ -6,11 +6,17 @@ var serve      = require('metalsmith-serve');
 var postcss    = require('metalsmith-with-postcss');
 var tags       = require('./app/src/tags');
 var tagPages   = require('metalsmith-tags');
+var permalinks = require('metalsmith-permalinks');
 // var articles   = require('./app/src/articles');
 
 var site = Metalsmith(__dirname)
   .source('app')
   .destination('build')
+    .use(tagPages({
+      'handle': 'tags',
+      'path'  : 'tag/:tag.html',
+      'layout': 'tag.html'
+    }))
   .use(tags())
   .use(postcss({
     plugins       : {
@@ -21,12 +27,8 @@ var site = Metalsmith(__dirname)
     },
     removeExcluded: true
   }))
-  .use(tagPages({
-    'handle': 'tags',
-    'path'  : 'tag/:tag.html',
-    'layout': 'tag.html'
-  }))
   .use(markdown())
+  .use(permalinks())
   .use(layouts({
     engine  : 'handlebars',
     partials: 'layouts/partials'

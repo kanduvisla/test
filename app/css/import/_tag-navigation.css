@@ -1,8 +1,15 @@
 .tags-navigation {
-    background: var(--colorDarkGray);
-    padding: 10px;
+  background: var(--colorDarkGray);
+  overflow: hidden;
 
-    & a {
-      color: #f00;
-    }
+  & a {
+    background: linear-gradient(var(--colorDarkGray), var(--colorGray));
+    color: #fff;
+    display: block;
+    float: left;
+    padding: 10px;
+    text-decoration: none;
+    text-shadow: 0px 1px 1px #000;
+    box-sizing: border-box;
+  }
 }

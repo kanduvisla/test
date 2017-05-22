@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" href="/css/app.css"/>
-    </head>
-    <body>
-        {{{contents}}}
-        <nav class="tags">
-            {{#each tags}}
-            <a href="/tags/{{this}}">{{this}}</a>
-            {{/each}}
-        </nav>
-    </body>
+{{> head}}
+<body>
+{{> header}}
+{{> tag-navigation }}
+{{{contents}}}
+</body>
 </html>
