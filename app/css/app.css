@@ -1,0 +1,10 @@
+:root {
+    --colorWhite: #fff;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--colorWhite);
+}

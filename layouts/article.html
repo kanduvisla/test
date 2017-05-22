@@ -6,15 +6,11 @@
         <link rel="stylesheet" href="/css/app.css"/>
     </head>
     <body>
-        <nav class="tags-navigation">
-            {{#each allTags}}
-            <a href="/tag/{{tag}}">{{tag}} <span>({{count}})</span></a>
+        {{{contents}}}
+        <nav class="tags">
+            {{#each tags}}
+            <a href="/tags/{{this}}">{{this}}</a>
             {{/each}}
         </nav>
-        <nav class="articles-navigation">
-
-        </nav>
-
-        {{{contents}}}
     </body>
 </html>
