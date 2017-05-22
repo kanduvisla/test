@@ -1,6 +1,5 @@
-:root {
-    --colorWhite: #fff;
-}
+@import 'import/_variables.css';
+@import 'import/_tag-navigation.css';
 
 html,
 body {

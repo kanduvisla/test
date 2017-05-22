@@ -13,10 +13,11 @@ var site = Metalsmith(__dirname)
   .destination('build')
   .use(tags())
   .use(postcss({
-    plugins: {
+    plugins       : {
       'postcss-import' : {},
       'postcss-cssnext': {}
-    }
+    },
+    removeExcluded: true
   }))
   .use(tagPages({
     'handle': 'tags',
