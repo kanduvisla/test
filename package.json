@@ -1,0 +1,23 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "harp server site",
+    "build": "harp compile site"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanduvisla/test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanduvisla/test/issues"
+  },
+  "homepage": "https://github.com/kanduvisla/test#readme",
+  "devDependencies": {
+    "harp": "^0.23.0"
+  }
+}
