@@ -15,7 +15,9 @@ var site = Metalsmith(__dirname)
   .use(postcss({
     plugins       : {
       'postcss-import' : {},
-      'postcss-cssnext': {}
+      'postcss-cssnext': {
+        browsers: ['last 2 versions', '> 5%']
+      }
     },
     removeExcluded: true
   }))
@@ -36,7 +38,7 @@ if (process.argv.indexOf('--watch') !== -1) {
     .use(serve({port: 9000}))
     .use(watch({
       paths     : {
-        "${source}/**/*": true,
+        "${source}/**/*": "**/*",
         "layouts/**/*"  : "**/*"
       },
       livereload: true
