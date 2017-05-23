@@ -6,13 +6,15 @@
         <label for="search">
             Find what you're looking for
         </label>
-        <input type="search" name="search" id="search" data-bind="event:{keyup:performSearch}"/>
-        <div class="search-results" data-bind="visible:totalResults() > 0">
+        <input type="search" name="search" id="search" data-bind="event:{keyup:performSearch}"
+               placeholder="Find what you're looking for" autocomplete="off"/>
+        <div class="search-results" data-bind="css:{'search-results--visible':totalResults() > 0}">
             <p class="search-results__count">
                 Total results: <span data-bind="text:totalResults"></span>
             </p>
             <ul data-bind="foreach: results">
-                <li class="search-result">
+                <li class="search-result"
+                    data-bind="css:{'search-result--active': $parent.selectedIndex() == $index()}">
                     <p class="search-result__title">
                         <a data-bind="attr:{href:'/' + ref + '/'}, text:$parent.reference[ref].title"></a>
                     </p>

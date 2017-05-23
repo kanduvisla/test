@@ -1,0 +1,18 @@
+.main-header {
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+");
+  border-bottom: 3px solid gray(20%);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+
+  & h1 {
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+
+    & a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}

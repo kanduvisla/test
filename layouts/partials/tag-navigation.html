@@ -2,10 +2,8 @@
     {{#each allTags}}
     <a href="/tag/{{tag.slug}}/"
        title="{{tag.name}}"
-       data-tag="{{tag.slug}}"
-       data-percent="{{percent}}"
-       style="width: {{percent}}%;">
-            <span class="tag-name">{{tag.name}}</span>
-            <span class="tag-count">({{count}})</span></a>
+       data-tag="{{tag.slug}}">
+        <span class="tag-name">{{tag.name}}</span>
+        <span class="tag-count">({{count}})</span></a>
     {{/each}}
 </nav>
