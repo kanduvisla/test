@@ -2,12 +2,14 @@
 @import 'import/_tag-navigation.css';
 @import 'import/_tags.css';
 @import 'import/_content.css';
+@import 'import/_search.css';
+@import 'import/_header.css';
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-    background: var(--colorWhite);
-    font-family: sans-serif;
-    font-size: var(--fontNormal);
+  margin: 0;
+  padding: 0;
+  background: var(--colorWhite);
+  font-family: sans-serif;
+  font-size: var(--fontNormal);
 }

@@ -9,18 +9,19 @@ var tagPages   = require('metalsmith-tags');
 var permalinks = require('metalsmith-permalinks');
 var ignore     = require('metalsmith-ignore');
 var tidy       = require('metalsmith-html-tidy');
-var lunr       = require('metalsmith-lunr');
-var lunr_      = require('lunr');
-var striptags  = require('striptags');
-// var articles   = require('./app/src/articles');
+//var lunr       = require('metalsmith-lunr');
+//var lunr_      = require('lunr');
+var striptags = require('striptags');
 
-require('lunr-languages/lunr.stemmer.support')(lunr_);
-// require('lunr-languages/lunr.en')(lunr_);
+var lunr = require('./app/src/lunr');
+
+//require('lunr-languages/lunr.stemmer.support')(lunr_);
+
 
 var site = Metalsmith(__dirname)
   .source('app')
   .destination('build')
-  .use(ignore('articles/_*.md'))
+  .use(ignore('articles/_*.md'))    // Ignore markdown files that start with an underscore
   .use(tagPages({
     'handle': 'tags',
     'path'  : 'tag/:tag.html',
@@ -37,32 +38,37 @@ var site = Metalsmith(__dirname)
     },
     removeExcluded: true
   }))
-  .use(lunr({
-    ref              : 'title',
-    pipelineFunctions: [
-      lunr_.trimmer,
-      lunr_.stopWordFilter,
-      lunr_.stemmer
-    ],
-    preprocess       : function (content) {
-      // Strip code blocks (we only want to search through content:
-      content = content.replace(/<pre><code>[\s\S]*?<\/code><\/pre>/gm, '');
-
-      // Strip markdown code blocks:
-      content = content.replace(/^\s{4}.*/gm, '');
-
-      // Strip numbers (nobody searches on numbers):
-      content = content.replace(/\d/gm, '');
-
-      // Strip words that have backslashes (probably classes, don't index that):
-      content = content.replace(/(\w+\\)/gm, '');
-
-      // Strip backticks:
-      content = content.replace(/\`/gm, '')
-
-      return striptags(content);
-    }
-  }))
+  .use(lunr())
+  //.use(lunr({
+  //  //ref              : 'title',
+  //  fields           : {
+  //    contents: 1,
+  //    title   : 2
+  //  },
+  //  pipelineFunctions: [
+  //    lunr_.trimmer,
+  //    lunr_.stopWordFilter,
+  //    lunr_.stemmer
+  //  ],
+  //  preprocess       : function (content) {
+  //    // Strip code blocks (we only want to search through content:
+  //    content = content.replace(/<pre><code>[\s\S]*?<\/code><\/pre>/gm, '');
+  //
+  //    // Strip markdown code blocks:
+  //    content = content.replace(/^\s{4}.*/gm, '');
+  //
+  //    // Strip numbers (nobody searches on numbers):
+  //    // content = content.replace(/\d/gm, '');
+  //
+  //    // Strip words that have backslashes (probably classes, don't index that):
+  //    content = content.replace(/(\w+\\)/gm, '');
+  //
+  //    // Strip backticks:
+  //    content = content.replace(/\`/gm, '')
+  //
+  //    return striptags(content);
+  //  }
+  //}))
   .use(markdown())
   .use(permalinks())
   .use(layouts({

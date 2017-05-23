@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-{{> head}}
-<body>
-{{> header}}
-{{> tag-navigation }}
+    {{> head}}
+    <body>
+        {{> header}}
+        {{> tag-navigation }}
 
-<section class="content">
-    <h1>Articles tagged with <span class="tag">{{tag}}</span>:</h1>
-    <ul class="article-list">
-        {{#each pagination.files}}
-            <li class="article-list__item">
-                <a href="/{{path}}/">{{title}}</a>
-            </li>
-        {{/each}}
-    </ul>
-</section>
-</body>
+        <section class="content">
+            <h1>Articles tagged with <span class="tag">{{tag}}</span>:</h1>
+            <ul class="article-list">
+                {{#each pagination.files}}
+                <li class="article-list__item">
+                    <a href="/{{path}}/">{{title}}</a>
+                </li>
+                {{/each}}
+            </ul>
+        </section>
+        {{> footer}}
+    </body>
 </html>
