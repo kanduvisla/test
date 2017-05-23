@@ -33,3 +33,40 @@
     margin-left: 2em;
   }
 }
+
+.content-meta {
+  background: var(--colorLightGray);
+  color: var(--colorGray);
+  font-size: var(--fontSmall);
+  padding: 10px;
+
+  & dl, & dd, & dt {
+    margin: 0;
+    padding: 0;
+  }
+
+  & dd, & dt {
+    display: inline-block;
+  }
+
+  & dt:after {
+    content: ':';
+  }
+
+  & dd {
+    margin-right: 2em;
+  }
+
+  & a {
+    background: gray(75%);
+    color: var(--colorWhite);
+    display: inline-block;
+    padding: 2px 5px;
+    text-decoration: none;
+    transition: background 125ms;
+
+    &:hover {
+      background: var(--colorGray);
+    }
+  }
+}

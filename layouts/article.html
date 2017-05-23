@@ -4,6 +4,22 @@
     <body>
         {{> header}}
         {{> tag-navigation }}
+        <section class="content-meta">
+            <dl>
+                <dt>Date Published</dt>
+                <dd>{{date}}</dd>
+                <dt>Tags</dt>
+                <dd>
+                    {{#each tags}}
+                    <a href="/tag/{{this.slug}}/">{{this.name}}</a>
+                    {{/each}}
+                </dd>
+                <dt>Word Count</dt>
+                <dd>{{wordCount}}</dd>
+                <dt>Estimated Reading Time</dt>
+                <dd>{{readingTime}}</dd>
+            </dl>
+        </section>
         <section class="content">
             {{{contents}}}
         </section>
