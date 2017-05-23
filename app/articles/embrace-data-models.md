@@ -3,6 +3,7 @@ title: Embrace Data Models
 date: 2017-05-22
 layout: article.html
 published: true
+lunr: true
 tags:
   - Magento 2
   - Data Models

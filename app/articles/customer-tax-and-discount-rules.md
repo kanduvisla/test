@@ -3,6 +3,7 @@ title: Customer Tax and Discount Rules in Magento 2
 date: 2017-02-17
 layout: article.html
 published: true
+lunr: true
 tags:
   - Magento 2
   - Tax

@@ -3,6 +3,7 @@ title: Add a Custom Renderer to the Magento 2 WebAPI
 date: 2017-02-21
 layout: article.html
 published: true
+lunr: true
 tags:
   - Magento 2
   - WebAPI

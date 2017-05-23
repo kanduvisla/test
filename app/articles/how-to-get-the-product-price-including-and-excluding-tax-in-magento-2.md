@@ -3,6 +3,7 @@ title: How to get the product price including and excluding tax in Magento 2
 date: 2017-03-06
 layout: article.html
 published: true
+lunr: true
 tags:
   - Magento 2
   - Tax
