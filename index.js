@@ -4,7 +4,7 @@ var layouts       = require('metalsmith-layouts');
 var watch         = require('metalsmith-watch');
 var serve         = require('metalsmith-serve');
 var postcss       = require('metalsmith-with-postcss');
-var tags          = require('./app/src/tags');
+// var tags          = require('./app/src/tags');
 var tagPages      = require('metalsmith-tags');
 var permalinks    = require('metalsmith-permalinks');
 var ignore        = require('metalsmith-ignore');
@@ -23,7 +23,7 @@ var site = Metalsmith(__dirname)
     'path'  : 'tag/:tag.html',
     'layout': 'tag.html'
   }))
-  .use(tags())
+  //  .use(tags())
   .use(postcss({
     plugins       : {
       'postcss-import' : {},

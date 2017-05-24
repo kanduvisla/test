@@ -1,7 +1,7 @@
 var _ = require('lodash');
 
 module.exports = function (opts) {
-  return function (files) {
+  return function (files, metalsmith, done) {
     var allTags    = [];
     var file;
     var totalCount = 0;
@@ -34,13 +34,10 @@ module.exports = function (opts) {
     });
 
     // Step #3 sort them by percentage:
-    allTags = allTags.sort(function(a, b){
+    allTags = allTags.sort(function (a, b) {
       return b.count - a.count;
     });
 
-    // Step #4 is to add the tags information to all files:
-    for (file in files) {
-      files[file].allTags = allTags;
-    }
+    done();
   }
 };
