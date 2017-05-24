@@ -24,6 +24,7 @@
     "lunr": "^2.0.3",
     "lunr-languages": "^1.0.0",
     "metalsmith": "^2.3.0",
+    "metalsmith-build-info": "git+https://github.com/kanduvisla/metalsmith-build-info.git",
     "metalsmith-date-formatter": "^1.0.2",
     "metalsmith-html-tidy": "^1.1.2",
     "metalsmith-ignore": "^0.1.2",

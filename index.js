@@ -4,7 +4,7 @@ var layouts       = require('metalsmith-layouts');
 var watch         = require('metalsmith-watch');
 var serve         = require('metalsmith-serve');
 var postcss       = require('metalsmith-with-postcss');
-// var tags          = require('./app/src/tags');
+var tags          = require('./app/src/tags');
 var tagPages      = require('metalsmith-tags');
 var permalinks    = require('metalsmith-permalinks');
 var ignore        = require('metalsmith-ignore');
@@ -13,6 +13,7 @@ var striptags     = require('striptags');
 var wordcount     = require("metalsmith-word-count");
 var dateFormatter = require('metalsmith-date-formatter');
 var lunr          = require('./app/src/lunr');
+var buildInfo     = require('metalsmith-build-info');
 
 var site = Metalsmith(__dirname)
   .source('app')
@@ -23,7 +24,6 @@ var site = Metalsmith(__dirname)
     'path'  : 'tag/:tag.html',
     'layout': 'tag.html'
   }))
-  //  .use(tags())
   .use(postcss({
     plugins       : {
       'postcss-import' : {},
@@ -36,6 +36,8 @@ var site = Metalsmith(__dirname)
   }))
   .use(lunr())
   .use(markdown())
+  .use(buildInfo())
+  .use(tags())
   .use(dateFormatter())
   .use(wordcount())
   .use(permalinks())

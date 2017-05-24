@@ -38,6 +38,9 @@ module.exports = function (opts) {
       return b.count - a.count;
     });
 
+    // Add them as metadata:
+    metalsmith.metadata().allTags = allTags;
+
     done();
   }
 };
