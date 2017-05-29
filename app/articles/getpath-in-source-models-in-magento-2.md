@@ -36,9 +36,11 @@ Now look at the method responsible for parsing the `<source_model>`-node from ou
 method is located at `\Magento\Config\Model\Config\Structure\Element\Field::_getOptionsFromSourceModel()`.
 In this method you'll notice the following line:
 
-    if ($sourceModel instanceof \Magento\Framework\DataObject) {
-        $sourceModel->setPath($this->getPath());
-    }
+```php
+if ($sourceModel instanceof \Magento\Framework\DataObject) {
+    $sourceModel->setPath($this->getPath());
+}
+```
 
 Boom! There it is. What the above states means the following:
 
@@ -48,13 +50,15 @@ you have knowledge to the path in the configuration from where the source model 
 In this example this means the following: Looking back at the `system.xml`-node of the Magento Sales
 module we can summarize it like this:
 
-    <section id="sales_email">
-        <group id="order">
-            <field id="template">
-                ...
-            </field>
-        </group>
-    </section>
+```xml
+<section id="sales_email">
+    <group id="order">
+        <field id="template">
+            ...
+        </field>
+    </group>
+</section>
+```
     
 This means that in this example the path is `sales_email/order/template`. In other words: this is the 
 path that `getPath()` will return in this configuration-node. But in other locations in the XML, the

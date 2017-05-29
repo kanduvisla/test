@@ -30,68 +30,76 @@ Now, once again, there are several ways to solve this. I always like to implemen
 
 The entry point where the `<body>`-tag is rendered is in `vendor/magento/module-theme/view/base/templates/root.phtml`. Inside this template there is a piece of code that kind of looks like this:
 
-    <body data-container="body" <?php echo $bodyAttributes; ?>>
-    
+```php
+<body data-container="body" <?php echo $bodyAttributes; ?>>
+```
+
 The template itself has of course more than this, but for this article that's all you need to know.
 
 The template is rendered by `Magento\Framework\View\Result\Page::render()`. If you look in this method, you'll see that the argument `$bodyAttributes` is build like this:
 
-    'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY),
+```php
+'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY),
+```
 
 `Magento\Framework\View\Page\Config\Renderer::renderElementAttributes()` is a public method, and as we all know, we can simply write a plugin to manipulate it's outcome:
 
 `etc/frontend/di.xml`:
 
-    <type name="Magento\Framework\View\Page\Config\Renderer">
-        <plugin name="add_class_to_body"
-                type="Vendor\Module\Plugin\Magento\Framework\View\Page\Config\Renderer"/>
-    </type>
+```xml
+<type name="Magento\Framework\View\Page\Config\Renderer">
+    <plugin name="add_class_to_body"
+            type="Vendor\Module\Plugin\Magento\Framework\View\Page\Config\Renderer"/>
+</type>
+```
 
 And `Renderer.php`:
 
-    /**
-     * @var Session
-     */
-    protected $customerSession;
+```php
+/**
+ * @var Session
+ */
+protected $customerSession;
 
-    /**
-     * Renderer constructor.
-     * @param Session $customerSession
-     */
-    public function __construct(
-        Session $customerSession
-    )
-    {
-        $this->customerSession = $customerSession;
-    }
+/**
+ * Renderer constructor.
+ * @param Session $customerSession
+ */
+public function __construct(
+    Session $customerSession
+)
+{
+    $this->customerSession = $customerSession;
+}
 
-    /**
-     * @param \Magento\Framework\View\Page\Config\Renderer $subject
-     * @param callable $proceed
-     * @param string $elementType
-     * @return string
-     */
-    public function aroundRenderElementAttributes(
-        \Magento\Framework\View\Page\Config\Renderer $subject,
-        callable $proceed,
-        string $elementType
-    )
-    {
-        $result = $proceed($elementType);
+/**
+ * @param \Magento\Framework\View\Page\Config\Renderer $subject
+ * @param callable $proceed
+ * @param string $elementType
+ * @return string
+ */
+public function aroundRenderElementAttributes(
+    \Magento\Framework\View\Page\Config\Renderer $subject,
+    callable $proceed,
+    string $elementType
+)
+{
+    $result = $proceed($elementType);
 
-        if ($elementType === \Magento\Framework\View\Page\Config::ELEMENT_TYPE_BODY) {
-            // Prepend CSS class:
-            if ($this->customerSession->isLoggedIn()) {
-                $result = str_replace(
-                    'class="', 
-                    'class="logged-in ', 
-                    $result
-                );
-            }
+    if ($elementType === \Magento\Framework\View\Page\Config::ELEMENT_TYPE_BODY) {
+        // Prepend CSS class:
+        if ($this->customerSession->isLoggedIn()) {
+            $result = str_replace(
+                'class="', 
+                'class="logged-in ', 
+                $result
+            );
         }
-
-        return $result;
     }
+
+    return $result;
+}
+```
 
 I know it's not the most elegent solution but for now it does the trick.
 
@@ -113,45 +121,49 @@ To fix this we'll have to write a plugin for the depersonalizer as well:
 
 `di.xml`:
 
-    <type name="Magento\PageCache\Model\DepersonalizeChecker">
-        <plugin name="check_logged_in"
-                type="Vendor\Module\Plugin\Magento\PageCache\Model\DepersonalizeChecker"/>
-    </type>
+```xml
+<type name="Magento\PageCache\Model\DepersonalizeChecker">
+    <plugin name="check_logged_in"
+            type="Vendor\Module\Plugin\Magento\PageCache\Model\DepersonalizeChecker"/>
+</type>
+```
 
 And our `DepersonalizeChecker.php`:
 
-    /**
-     * @var Session
-     */
-    protected $customerSession;
+```php
+/**
+ * @var Session
+ */
+protected $customerSession;
 
-    /**
-     * DepersonalizeChecker constructor.
-     * @param Session $customerSession
-     */
-    public function __construct(
-        Session $customerSession
-    )
-    {
-        $this->customerSession = $customerSession;
+/**
+ * DepersonalizeChecker constructor.
+ * @param Session $customerSession
+ */
+public function __construct(
+    Session $customerSession
+)
+{
+    $this->customerSession = $customerSession;
+}
+
+/**
+ * @param \Magento\PageCache\Model\DepersonalizeChecker $subject
+ * @param bool $result
+ * @return bool
+ */
+public function afterCheckIfDepersonalize(
+    \Magento\PageCache\Model\DepersonalizeChecker $subject,
+    bool $result
+)
+{
+    if ($result === true) {
+        return $this->customerSession->isLoggedIn() ? false : $result;
     }
 
-    /**
-     * @param \Magento\PageCache\Model\DepersonalizeChecker $subject
-     * @param bool $result
-     * @return bool
-     */
-    public function afterCheckIfDepersonalize(
-        \Magento\PageCache\Model\DepersonalizeChecker $subject,
-        bool $result
-    )
-    {
-        if ($result === true) {
-            return $this->customerSession->isLoggedIn() ? false : $result;
-        }
-
-        return $result;
-    }
+    return $result;
+}
+```
 
 **BEWARE OF WHAT YOU ARE DOING HERE!** Because basically you are disabling full-page cache entirely for every logged in customer. So if you are going to mess with the outcome of the depersonalizer, you'd be best of by adding some extra additions:
 

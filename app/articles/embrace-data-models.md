@@ -24,22 +24,28 @@ If you're not familiar with this, _'Composition over Inheritance'_ means that yo
 
 A lot of code has been ported from Magento 1 directly to Magento 2 and you can still see lot of Magento 1 design patterns and influences in todays' Magento 2 core. One of these concepts are the Magento 1 models and their collections. In Magento 1, the persistent operations where done directly on the model. For example:
 
-    $productModel->load(42);
-    $productModel->setName('My Majestic Product');
-    $productModel->save();
-    
+```php
+$productModel->load(42);
+$productModel->setName('My Majestic Product');
+$productModel->save();
+```
+
 In Magento 2 these actions are done by repositories:
 
-    $productModel = $this->productRepository->getById(42);
-    $productModel->setName('My Majestic Product');
-    $this->productRepository->save($productModel);
-    
+```php
+$productModel = $this->productRepository->getById(42);
+$productModel->setName('My Majestic Product');
+$this->productRepository->save($productModel);
+```
+
 The same goes for collections: those are almost entirely ported from Magento 1. Just take a look at their pseudo-constructors:
 
-    protected function _construct()
-    {
-        $this->_init('Vendor\Module\Model\Example', 'Vendor\Module\Model\ResourceModel\Example');
-    }
+```php
+protected function _construct()
+{
+    $this->_init('Vendor\Module\Model\Example', 'Vendor\Module\Model\ResourceModel\Example');
+}
+```
 
 As you can see, collections depend on Magento 1-like (resource) models to operate. Which can be not exactly what you want, since Magentos' default model extends from `Magento\Framework\Model\AbstractModel` which has tons of boilerplate code that you don't really need. Remember that thing I said about composition over inheritance? This is a fine example of how inheritance is causing additional overhead.
 
@@ -59,10 +65,12 @@ There is however a problem that you need to overcome when working with data mode
 
 Collections are still a fundamental part of Magento 2. They are used internally in repositories, in the admin grid, in forms, etc. They provide an abstract way to search through your entities and provide a set of results to work with. However, as I stated earlier: collections have a dependency on legacy models. Just take a look again at the pseudo constructor of a typical collection (extended from `Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection`):
 
-    protected function _construct()
-    {
-        $this->_init('Vendor\Module\Model\Example', 'Vendor\Module\Model\ResourceModel\Example');
-    }
+```php
+protected function _construct()
+{
+    $this->_init('Vendor\Module\Model\Example', 'Vendor\Module\Model\ResourceModel\Example');
+}
+```
 
 As I've shown in the example above, there is no need for legacy models when you're embracing data models. So it would be a shame if we only need to create a legacy model to provide this basic functionality. Luckily for us, the flexible nature of Magento 2 makes it very easy to overcome this problem.
 
@@ -70,26 +78,30 @@ As I've shown in the example above, there is no need for legacy models when you'
 
 First of, in admin grids it's easy to provide a collection. If you're already familiar with UI Components, you'll know that you can create a virtual type to provide a grid collection for this purpose:
 
-    <virtualType name="Vendor\Module\Model\ResourceModel\Example\Grid\Collection"
-                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">my_table</argument>
-            <argument name="resourceModel" xsi:type="string">Vendor\Module\Model\ResourceModel\Example</argument>
-        </arguments>
-    </virtualType>
+```xml
+<virtualType name="Vendor\Module\Model\ResourceModel\Example\Grid\Collection"
+             type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <arguments>
+        <argument name="mainTable" xsi:type="string">my_table</argument>
+        <argument name="resourceModel" xsi:type="string">Vendor\Module\Model\ResourceModel\Example</argument>
+    </arguments>
+</virtualType>
+```
 
 Since we're working with persistent data, we need a resource model. Since a resource model only needs to know information about the database (like what table to map to and what field is used for the primary key, we can simply create a resource model by extending `\Magento\Framework\Model\ResourceModel\Db\AbstractDb`:
 
-    class Example extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+```php
+class Example extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+{
+    /**
+     * Pseudo Constructor
+     */
+    protected function _construct()
     {
-        /**
-         * Pseudo Constructor
-         */
-        protected function _construct()
-        {
-            $this->_init('my_table', 'id');
-        }
+        $this->_init('my_table', 'id');
     }
+}
+```
 
 So now we have a resource model and a collection that can work with our grid. But what about plain ol' regular collections? They require a legacy model to work with!
 
@@ -104,80 +116,82 @@ If you take a look at `Magento\Framework\Model\ResourceModel\Db\Collection\Abstr
 
 So basically, we can now create a simple collection without the need of a legacy model like this:
 
-    use Vendor\Module\Model\ResourceModel\Example;
-    use Magento\Framework\App\ResourceConnection\SourceProviderInterface;
-    use Magento\Framework\Data\Collection\AbstractDb;
-    use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
-    use Magento\Framework\Data\Collection\EntityFactoryInterface;
-    use Psr\Log\LoggerInterface as Logger;
-    
+```php
+use Vendor\Module\Model\ResourceModel\Example;
+use Magento\Framework\App\ResourceConnection\SourceProviderInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Data\Collection\EntityFactoryInterface;
+use Psr\Log\LoggerInterface as Logger;
+
+/**
+ * Class Collection
+ */
+class Collection extends AbstractDb implements SourceProviderInterface
+{
     /**
-     * Class Collection
+     * @var string
      */
-    class Collection extends AbstractDb implements SourceProviderInterface
-    {
-        /**
-         * @var string
-         */
-        protected $_idFieldName = 'id';
-    
-        /**
-         * @var Example
-         */
-        protected $resource;
-    
-        /**
-         * Collection constructor.
-         * @param Example $resource
-         * @param EntityFactoryInterface $entityFactory
-         * @param Logger $logger
-         * @param FetchStrategyInterface $fetchStrategy
-         * @param \Magento\Framework\DB\Adapter\AdapterInterface|null $connection
-         */
-        public function __construct(
-            Example $resource,
-            EntityFactoryInterface $entityFactory,
-            Logger $logger,
-            FetchStrategyInterface $fetchStrategy,
-            \Magento\Framework\DB\Adapter\AdapterInterface $connection = null
-        ) {
-            $this->resource = $resource;
-    
-            if (!$connection) {
-                $connection = $resource->getConnection();
-            }
-            
-            parent::__construct($entityFactory, $logger, $fetchStrategy, $connection);
-    
-            // Set main table:
-            $this->getSelect()->from(['main_table' => $this->getMainTable()]);
+    protected $_idFieldName = 'id';
+
+    /**
+     * @var Example
+     */
+    protected $resource;
+
+    /**
+     * Collection constructor.
+     * @param Example $resource
+     * @param EntityFactoryInterface $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\DB\Adapter\AdapterInterface|null $connection
+     */
+    public function __construct(
+        Example $resource,
+        EntityFactoryInterface $entityFactory,
+        Logger $logger,
+        FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\DB\Adapter\AdapterInterface $connection = null
+    ) {
+        $this->resource = $resource;
+
+        if (!$connection) {
+            $connection = $resource->getConnection();
         }
-    
-        /**
-         * @return Example
-         */
-        public function getResource()
-        {
-            return $this->resource;
-        }
-    
-        /**
-         * @return string
-         */
-        public function getMainTable()
-        {
-            return $this->resource->getMainTable();
-        }
-    
-        /**
-         * @param string $fieldName
-         * @param null $alias
-         * @return $this
-         */
-        public function addFieldToSelect($fieldName, $alias = null)
-        {
-            return $this;
-        }
+        
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $connection);
+
+        // Set main table:
+        $this->getSelect()->from(['main_table' => $this->getMainTable()]);
     }
+
+    /**
+     * @return Example
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMainTable()
+    {
+        return $this->resource->getMainTable();
+    }
+
+    /**
+     * @param string $fieldName
+     * @param null $alias
+     * @return $this
+     */
+    public function addFieldToSelect($fieldName, $alias = null)
+    {
+        return $this;
+    }
+}
+```
 
 So there you have it! A minimal example of a collection that's driven by composition, not inheritance. So let's just take this example by heart and start saying goodbye to legacy models.
