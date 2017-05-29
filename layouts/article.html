@@ -21,17 +21,36 @@
             </dl>
         </section>
         <section class="content">
-            <div class="content-wrapper">
+            <div class="content__wrapper">
                 {{{contents}}}
+            </div>
+            <div class="content__notice">
+                <p>
+                    Is there something wrong with this article?
+                    <a target="_blank" href="https://github.com/kanduvisla/test/blob/master/app/{{path}}.md">
+                        Fork it, fix it, and send me a pull request.</a>
+                    Thanks in advance!
+                </p>
             </div>
         </section>
         <section class="content-footer">
-            <p>Is there something wrong with this article?
-                <a target="_blank" href="https://github.com/kanduvisla/test/blob/master/app/{{path}}.md">
-                    Fork it, fix it, and send me a pull request.</a>
-                Thanks in advance!
-            </p>
             <div id="disqus_thread" data-disqus-key="{{path}}"></div>
+            <script>
+              /**
+               *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+               *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+              var disqus_config = function () {
+                this.page.url        = 'https://giel.berkers.online/{{path}}/';
+                this.page.identifier = '{{path}}';
+              };
+
+              (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://giel-berkers-online.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+              })();
+            </script>
         </section>
         {{> footer}}
     </body>

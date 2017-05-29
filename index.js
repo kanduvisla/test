@@ -15,7 +15,7 @@ var dateFormatter = require('metalsmith-date-formatter');
 var lunr          = require('./app/src/lunr');
 var buildInfo     = require('metalsmith-build-info');
 var prism         = require('metalsmith-prism');
-var disqus        = require('metalsmith-disqus');
+// var disqus        = require('metalsmith-disqus');
 // var languageDetect = require('./app/src/language-detect');
 
 var site = Metalsmith(__dirname)
@@ -50,10 +50,10 @@ var site = Metalsmith(__dirname)
       .use(dateFormatter())
       .use(wordcount())
       .use(permalinks())
-      .use(disqus({
-        siteurl  : 'https://giel.berkers.online',
-        shortname: 'giel-berkers-online'
-      }))
+      //.use(disqus({
+      //  siteurl  : 'https://giel.berkers.online',
+      //  shortname: 'giel-berkers-online'
+      //}))
       .use(layouts({
         engine  : 'handlebars',
         partials: 'layouts/partials'

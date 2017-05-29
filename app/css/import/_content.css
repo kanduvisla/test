@@ -79,6 +79,17 @@
   & ul, & ol {
     margin-left: 2em;
   }
+
+  &__notice {
+    color: gray(75%);
+    font-style: italic;
+    text-align: center;
+    margin-top: 2em;
+
+    & a {
+      color: gray(75%);
+    }
+  }
 }
 
 .content-meta {
@@ -120,11 +131,8 @@
 }
 
 .content-footer {
-  color: gray(75%);
-  font-style: italic;
-  text-align: center;
-
-  & a {
-    color: gray(75%);
-  }
+  max-width: var(--widthFull);
+  box-sizing: border-box;
+  margin: 2em auto;
+  padding: 2em;
 }
