@@ -7,3 +7,4 @@
 
 - tags information (voor bijv. tag cloud)
 - lunr2
+- language detect

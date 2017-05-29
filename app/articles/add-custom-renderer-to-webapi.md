@@ -41,33 +41,35 @@ Magento 2 comes by default with 2 types of renderers:
 
 You can see this when you open the `etc/di.xml` from the web api module:
 
-    <type name="Magento\Framework\Webapi\Rest\Response\RendererFactory">
-        <arguments>
-            <argument name="renders" xsi:type="array">
-                <item name="default" xsi:type="array">
-                    <item name="type" xsi:type="string">*/*</item>
-                    <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Json</item>
-                </item>
-                <item name="application_json" xsi:type="array">
-                    <item name="type" xsi:type="string">application/json</item>
-                    <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Json</item>
-                </item>
-                <item name="text_xml" xsi:type="array">
-                    <item name="type" xsi:type="string">text/xml</item>
-                    <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Xml</item>
-                </item>
-                <item name="application_xml" xsi:type="array">
-                    <item name="type" xsi:type="string">application/xml</item>
-                    <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Xml</item>
-                </item>
-                <item name="application_xhtml_xml" xsi:type="array">
-                    <item name="type" xsi:type="string">application/xhtml+xml</item>
-                    <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Xml</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
-    
+```xml
+<type name="Magento\Framework\Webapi\Rest\Response\RendererFactory">
+    <arguments>
+        <argument name="renders" xsi:type="array">
+            <item name="default" xsi:type="array">
+                <item name="type" xsi:type="string">*/*</item>
+                <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Json</item>
+            </item>
+            <item name="application_json" xsi:type="array">
+                <item name="type" xsi:type="string">application/json</item>
+                <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Json</item>
+            </item>
+            <item name="text_xml" xsi:type="array">
+                <item name="type" xsi:type="string">text/xml</item>
+                <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Xml</item>
+            </item>
+            <item name="application_xml" xsi:type="array">
+                <item name="type" xsi:type="string">application/xml</item>
+                <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Xml</item>
+            </item>
+            <item name="application_xhtml_xml" xsi:type="array">
+                <item name="type" xsi:type="string">application/xhtml+xml</item>
+                <item name="model" xsi:type="string">Magento\Framework\Webapi\Rest\Response\Renderer\Xml</item>
+            </item>
+        </argument>
+    </arguments>
+</type>
+```
+
 You can see that by default, 5 mime-types are registered and assigned to 2 different types of renderers:
 
 - `*/*` (which is a wildcard) maps to the JSON renderer.
@@ -80,19 +82,21 @@ What's missing from this list, is the mime-type for plain text (`text/plain`) an
 So let's add these to our custom module. In our `etc/di.xml` we can add our own renderers to the `RendererFactory`
 like so:
 
-    <!--
-        Add plain text renderer to web api:
-    -->
-    <type name="Magento\Framework\Webapi\Rest\Response\RendererFactory">
-        <arguments>
-            <argument name="renders" xsi:type="array">
-                <item name="txt" xsi:type="array">
-                    <item name="type" xsi:type="string">text/plain</item>
-                    <item name="model" xsi:type="string">Vendor\Module\Webapi\Rest\Response\Renderer\Txt</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
+```xml
+<!--
+    Add plain text renderer to web api:
+-->
+<type name="Magento\Framework\Webapi\Rest\Response\RendererFactory">
+    <arguments>
+        <argument name="renders" xsi:type="array">
+            <item name="txt" xsi:type="array">
+                <item name="type" xsi:type="string">text/plain</item>
+                <item name="model" xsi:type="string">Vendor\Module\Webapi\Rest\Response\Renderer\Txt</item>
+            </item>
+        </argument>
+    </arguments>
+</type>
+```
 
 This registers a new type of renderer to the `RendererFactory`. We register it for the MIME Type `text/plain`,
 and add our own customer renderer model to it (`Vendor\Module\Webapi\Rest\Response\Renderer\Txt`).
@@ -101,44 +105,47 @@ Now, how complex it might seem, a renderer for the web API is actually a very si
 one requirement: it should implement `Magento\Framework\Webapi\Rest\Response\RendererInterface`. So this is
 what I came up with:
 
-    use Magento\Framework\Webapi\Rest\Response\RendererInterface;
-    
+```php
+use Magento\Framework\Webapi\Rest\Response\RendererInterface;
+
+/**
+ * Class Txt
+ */
+class Txt implements RendererInterface
+{
     /**
-     * Class Txt
+     * @return string
      */
-    class Txt implements RendererInterface
+    public function getMimeType()
     {
-        /**
-         * @return string
-         */
-        public function getMimeType()
-        {
-            return 'text/plain';
-        }
-    
-        /**
-         * @param array|bool|float|int|null|object|string $data
-         * @return string
-         * @throws \Magento\Framework\Webapi\Exception
-         */
-        public function render($data)
-        {
-            if (is_string($data)) {
-                return $data;
-            } else {
-                throw new \Magento\Framework\Webapi\Exception(
-                    __('Data is not text.')
-                );
-            }
+        return 'text/plain';
+    }
+
+    /**
+     * @param array|bool|float|int|null|object|string $data
+     * @return string
+     * @throws \Magento\Framework\Webapi\Exception
+     */
+    public function render($data)
+    {
+        if (is_string($data)) {
+            return $data;
+        } else {
+            throw new \Magento\Framework\Webapi\Exception(
+                __('Data is not text.')
+            );
         }
     }
+}
+```
 
 Now, this works when I explicitly set my `Accept`-header to `text/plain`. But by default, a
 browser doesn't ask for `text/plain`. In fact, if you look at the default request headers sent by
 Chrome you'll see the following headers:
 
-    Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-
+```none
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+```
 Now if you take a look at `\Magento\Framework\Webapi\Rest\Response\RendererFactory::_getRendererClass()`,
 you'll see that this method iterates over all `Accept`-types and returns the model as soon as there's a match. 
 So in this example the first match with Magento 2 will be `application/xhtml+xml`, which maps to 
@@ -150,7 +157,9 @@ Well, we've seen how the renderer is determined: it looks at the the `Accept`-he
 So where does Magento read this `Accept`-header anyway? Well, just look at the first line of 
 `_getRendererClass()`:
 
-    $acceptTypes = $this->_request->getAcceptTypes();
+```php
+$acceptTypes = $this->_request->getAcceptTypes();
+```
     
 So there is a method called `getAcceptTypes()`, and if we look at where it's declared 
 (`Magento\Framework\Webapi\Rest\Request::getAcceptTypes()`) we can see that it's a public method. Yay!
@@ -158,31 +167,35 @@ Now we all know what we can do! Write a plugin and modify the outcome to our bid
 
 In our `etc/di.xml`, add the plugin:
 
-    <!--
-        Explicitly set request headers for txt export:
-    -->
-    <type name="Magento\Framework\Webapi\Rest\Request">
-        <plugin name="force_txt_response" 
-                type="Vendor\Module\Plugin\Magento\Framework\Webapi\Rest\Request"/>
-    </type>
+```xml   
+<!--
+    Explicitly set request headers for txt export:
+-->
+<type name="Magento\Framework\Webapi\Rest\Request">
+    <plugin name="force_txt_response" 
+            type="Vendor\Module\Plugin\Magento\Framework\Webapi\Rest\Request"/>
+</type>
+```
 
 And in our plugin, check for the right conditions that determine whether we should force our 
 response to be `text/plain`:
 
-    /**
-     * @param \Magento\Framework\Webapi\Rest\Request $subject
-     * @param array $result
-     * @return array
-     */
-    public function afterGetAcceptTypes(\Magento\Framework\Webapi\Rest\Request $subject, array $result)
-    {
-        if ($subject->getRequestUri() === '/rest/V1/export/txt') {
-            // Force text/plain:
-            $result = ['text/plain'];
-        }
-
-        return $result;
+```php
+/**
+ * @param \Magento\Framework\Webapi\Rest\Request $subject
+ * @param array $result
+ * @return array
+ */
+public function afterGetAcceptTypes(\Magento\Framework\Webapi\Rest\Request $subject, array $result)
+{
+    if ($subject->getRequestUri() === '/rest/V1/export/txt') {
+        // Force text/plain:
+        $result = ['text/plain'];
     }
+
+    return $result;
+}
+```
 
 Now we're all set! If we make an API request to `/rest/V1/export/txt`, our `Accept`-headers are forced to
 `text/plain`, which makes sure that the `_getRendererClass()` picks our freshly added `txt`-renderer from

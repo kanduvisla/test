@@ -14,37 +14,45 @@ var wordcount     = require("metalsmith-word-count");
 var dateFormatter = require('metalsmith-date-formatter');
 var lunr          = require('./app/src/lunr');
 var buildInfo     = require('metalsmith-build-info');
+var prism         = require('metalsmith-prism');
+// var languageDetect = require('./app/src/language-detect');
 
 var site = Metalsmith(__dirname)
-  .source('app')
-  .destination('build')
-  .use(ignore('articles/_*.md'))    // Ignore markdown files that start with an underscore
-  .use(tagPages({
-    'handle': 'tags',
-    'path'  : 'tag/:tag.html',
-    'layout': 'tag.html'
-  }))
-  .use(postcss({
-    plugins       : {
-      'postcss-import' : {},
-      'postcss-mixins' : {},
-      'postcss-cssnext': {
-        browsers: ['last 2 versions', '> 5%']
-      }
-    },
-    removeExcluded: true
-  }))
-  .use(lunr())
-  .use(markdown())
-  .use(buildInfo())
-  .use(tags())
-  .use(dateFormatter())
-  .use(wordcount())
-  .use(permalinks())
-  .use(layouts({
-    engine  : 'handlebars',
-    partials: 'layouts/partials'
-  }))
+      .source('app')
+      .destination('build')
+      .use(ignore('articles/_*.md'))    // Ignore markdown files that start with an underscore
+      .use(tagPages({
+        'handle': 'tags',
+        'path'  : 'tag/:tag.html',
+        'layout': 'tag.html'
+      }))
+      .use(postcss({
+        plugins       : {
+          'postcss-import' : {},
+          'postcss-mixins' : {},
+          'postcss-cssnext': {
+            browsers: ['last 2 versions', '> 5%']
+          }
+        },
+        removeExcluded: true
+      }))
+      .use(lunr())
+      .use(markdown({
+        langPrefix: 'language-',
+//    smartypants: true,
+        tables    : true
+      }))
+      //.use(languageDetect())
+      .use(prism())
+      .use(buildInfo())
+      .use(tags())
+      .use(dateFormatter())
+      .use(wordcount())
+      .use(permalinks())
+      .use(layouts({
+        engine  : 'handlebars',
+        partials: 'layouts/partials'
+      }))
 ;
 
 if (process.argv.indexOf('--watch') !== -1) {
