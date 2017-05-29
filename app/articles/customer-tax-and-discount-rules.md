@@ -4,6 +4,7 @@ date: 2017-02-17
 layout: article.html
 published: true
 lunr: true
+comments: true
 tags:
   - Magento 2
   - Tax

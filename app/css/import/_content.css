@@ -118,3 +118,13 @@
     }
   }
 }
+
+.content-footer {
+  color: gray(75%);
+  font-style: italic;
+  text-align: center;
+
+  & a {
+    color: gray(75%);
+  }
+}

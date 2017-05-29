@@ -3,6 +3,7 @@ title: Sending different transactional mails according to the Customer Group in 
 date: 2017-02-20
 layout: article.html
 published: true
+comments: true
 lunr: true
 tags:
   - Magento 2

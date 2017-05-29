@@ -3,6 +3,7 @@ title: Do Stuff when the Customer is logged in
 date: 2017-02-26
 layout: article.html
 published: true
+comments: true
 lunr: true
 tags:
   - Magento 2

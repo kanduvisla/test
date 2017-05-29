@@ -4,6 +4,7 @@ date: 2017-02-21
 layout: article.html
 published: true
 lunr: true
+comments: true
 tags:
   - Magento 2
   - WebAPI
@@ -143,7 +144,7 @@ Now, this works when I explicitly set my `Accept`-header to `text/plain`. But by
 browser doesn't ask for `text/plain`. In fact, if you look at the default request headers sent by
 Chrome you'll see the following headers:
 
-```none
+```markup
 Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
 ```
 Now if you take a look at `\Magento\Framework\Webapi\Rest\Response\RendererFactory::_getRendererClass()`,

@@ -3,6 +3,7 @@ title: getPath() in Source Models in Magento 2
 date: 2017-02-17
 layout: article.html
 published: true
+comments: true
 lunr: true
 tags:
   - Magento 2
