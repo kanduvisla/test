@@ -5,12 +5,13 @@
 
 .tags-navigation {
 
-  background: var(--colorDarkGray);
-
+  background: linear-gradient(var(--colorDarkGray), var(--colorGray));
   font-size: var(--fontSmall);
+  height: 34px;
   overflow: hidden;
+  position: relative;
 
-  & a {
+  &__tag {
     background: linear-gradient(var(--colorDarkGray), var(--colorGray));
     box-sizing: border-box;
     color: #fff;
@@ -54,6 +55,14 @@
 
   & [data-tag="magento-2"]:before {
     background: linear-gradient(var(--colorOrange), color(var(--colorOrange) l(-10%)));
+  }
+
+  /* 'All tags'-button: */
+  &__all {
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    z-index: 2;
   }
 }
 

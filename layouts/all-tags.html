@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{> head}}
+    <body>
+        {{> header}}
+        {{> tag-navigation }}
+
+        <nav class="all-tags">
+            {{#each allTags}}
+            <a href="/tag/{{tag.slug}}/"
+               class="all-tags__tag"
+               title="{{tag.name}}"
+               data-tag="{{tag.slug}}">
+                <span class="tag-name">{{tag.name}}</span>
+            </a>
+            {{/each}}
+        </nav>
+
+        {{{contents}}}
+        {{> footer}}
+    </body>
+</html>

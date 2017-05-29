@@ -1,10 +1,15 @@
 :root {
-    --colorWhite: #fff;
-    --colorBlack: #000;
-    --colorDarkGray: gray(25%);
-    --colorGray: gray(35%);
-    --colorLightGray: gray(90%);
+  --colorWhite: #fff;
+  --colorBlack: #000;
+  --colorDarkGray: gray(25%);
+  --colorGray: gray(35%);
+  --colorLightGray: gray(90%);
 
-    --fontNormal: 16px;
-    --fontSmall: 12px;
+  --fontNormal: 16px;
+  --fontSmall: 12px;
+
+  --widthFull: 1280px;
+  --widthSmall: 640px;
 }
+
+@custom-media --small (width <= 1280px);
