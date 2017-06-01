@@ -20,7 +20,7 @@
                         </label>
                         , I want to
                         <label class="select-wrapper">
-                            <select name="task">
+                            <select name="task" data-bind="event:{change:loadArticle}">
                                 <option>-- Please Choose --</option>
                                 <!-- ko foreach:articles -->
                                 <option data-bind="value:path, text:title"></option>
