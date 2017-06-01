@@ -4,6 +4,7 @@
 @import 'import/_content.css';
 @import 'import/_search.css';
 @import 'import/_header.css';
+@import 'import/_mage-helper.css';
 
 html,
 body {

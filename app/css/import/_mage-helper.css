@@ -1,0 +1,24 @@
+#mage-helper {
+  font-size: var(--fontLarge);
+  text-align: center;
+
+  & select {
+    appearance: none;
+    padding: 2px .5em;
+    background: transparent;
+    border: 0;
+    font-size: var(--fontLarge);
+  }
+
+  & .select-wrapper {
+    background: var(--colorWhite);
+    border: 1px solid var(--colorLightGray);
+
+    &:after {
+      content: '▼';
+      font-size: var(--fontNormal);
+      color: gray(75%);
+      padding: 0 .5em;
+    }
+  }
+}
