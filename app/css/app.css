@@ -14,3 +14,12 @@ body {
   font-family: sans-serif;
   font-size: var(--fontNormal);
 }
+
+.inner-wrapper {
+  width: var(--widthFull);
+  margin: 0 auto;
+
+  @media (--small) {
+    width: 100%;
+  }
+}
