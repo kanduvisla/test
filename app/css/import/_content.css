@@ -17,7 +17,7 @@
   */
 
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 1em auto;
   width: var(--widthFull);
   padding: 1em 0;
   position: relative;
@@ -47,9 +47,16 @@
     z-index: 2;
   }
 
-  & h1, & h2, & h3, & h4, & h5, & h6 {
-    margin-top: 0;
-    padding-top: 0;
+  & h1 {
+    font-size: var(--fontHuge);
+
+    @media (--small) {
+      font-size: var(--fontLarge);
+    }
+  }
+
+  & h2 {
+    font-size: var(--fontLarge);
   }
 
   & p, & ul, & ol {

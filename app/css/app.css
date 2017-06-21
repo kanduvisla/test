@@ -11,7 +11,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--colorWhite);
-  font-family: sans-serif;
+  font-family: 'Libre Franklin', sans-serif;
   font-size: var(--fontNormal);
 }
 
@@ -22,4 +22,11 @@ body {
   @media (--small) {
     width: 100%;
   }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Gentium Basic', serif;
+  font-weight: normal;
+  margin-top: 0;
+  padding-top: 0;
 }
