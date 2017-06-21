@@ -17,6 +17,8 @@ var buildInfo     = require('metalsmith-build-info');
 var prism         = require('metalsmith-prism');
 var mage          = require('./app/src/mage2');
 var env           = require('metalsmith-env');
+var sitemap       = require('metalsmith-sitemap');
+
 // var disqus        = require('metalsmith-disqus');
 // var languageDetect = require('./app/src/language-detect');
 
@@ -63,10 +65,15 @@ var site = Metalsmith(__dirname)
       //  siteurl  : 'https://giel.berkers.online',
       //  shortname: 'giel-berkers-online'
       //}))
+      .use(sitemap({
+        hostname : 'https://giel.berkers.online',
+        omitIndex: true
+      }))
       .use(layouts({
         engine  : 'handlebars',
         partials: 'layouts/partials'
       }))
+
 ;
 
 if (process.argv.indexOf('--watch') !== -1) {
