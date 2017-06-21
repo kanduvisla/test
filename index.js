@@ -32,9 +32,11 @@ var site = Metalsmith(__dirname)
       .destination('build')
       .use(ignore('articles/_*.md'))    // Ignore markdown files that start with an underscore
       .use(tagPages({
-        'handle': 'tags',
-        'path'  : 'tag/:tag.html',
-        'layout': 'tag.html'
+        'handle' : 'tags',
+        'path'   : 'tag/:tag.html',
+        'layout' : 'tag.html',
+        'sortBy' : 'date',
+        'reverse': true
       }))
       .use(postcss({
         plugins       : {

@@ -4,12 +4,12 @@
     <body>
         {{> header}}
         {{> tag-navigation }}
-
         <section class="content">
             <h1>Articles tagged with <span class="tag">{{tag}}</span>:</h1>
             <ul class="article-list">
                 {{#each pagination.files}}
                 <li class="article-list__item">
+                    <span class="article-list__date">{{date}}</span>
                     <a href="/{{path}}/">{{title}}</a>
                 </li>
                 {{/each}}
