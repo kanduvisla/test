@@ -16,6 +16,7 @@ var lunr          = require('./app/src/lunr');
 var buildInfo     = require('metalsmith-build-info');
 var prism         = require('metalsmith-prism');
 var mage          = require('./app/src/mage2');
+var env           = require('metalsmith-env');
 // var disqus        = require('metalsmith-disqus');
 // var languageDetect = require('./app/src/language-detect');
 
@@ -43,6 +44,7 @@ var site = Metalsmith(__dirname)
         },
         removeExcluded: true
       }))
+      .use(env())
       .use(lunr())
       .use(markdown({
         langPrefix: 'language-',
