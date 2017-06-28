@@ -36,6 +36,7 @@ class Processor
         \Magento\Catalog\Model\Product $candidate
     ) {
         // Do your manipulation here
+        $request->setData('custom_price', 999);
     
         return [$item, $request, $candidate];
     }
